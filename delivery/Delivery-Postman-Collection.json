@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "Delivery API - Pruebas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8088/api/v1" },
+    { "key": "adminToken", "value": "" },
+    { "key": "clienteToken", "value": "" },
+    { "key": "repartidorToken", "value": "" },
+    { "key": "comercioId", "value": "1" },
+    { "key": "productoId", "value": "1" },
+    { "key": "pedidoId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "1-Auth-Login ADMIN",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/auth/login",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@delivery.com\",\n  \"password\": \"123456\"\n}" }
+      }
+    },
+    {
+      "name": "2-Auth-Login Repartidor",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/auth/login",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"repartidor@delivery.com\",\n  \"password\": \"123456\"\n}" }
+      }
+    },
+    {
+      "name": "3-Auth-Login Cliente",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/auth/login",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"cliente@delivery.com\",\n  \"password\": \"123456\"\n}" }
+      }
+    },
+    {
+      "name": "4-Auth-Register",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/auth/register",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Mario Gomez\",\n  \"direccion\": \"15 Calle 3-45, Zona 14\",\n  \"telefono\": \"5555-8899\",\n  \"email\": \"mario@gmail.com\",\n  \"password\": \"Password123\"\n}" }
+      }
+    },
+    {
+      "name": "5-Listar Comercios",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/comercios",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{clienteToken}}" }] }
+      }
+    },
+    {
+      "name": "6-Crear Comercio ADMIN",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/comercios",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{adminToken}}" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Pizzeria Don Bosco\",\n  \"categoria\": \"RESTAURANTE\",\n  \"direccion\": \"Zona 8, Kinal\",\n  \"abierto\": true\n}" }
+      }
+    },
+    {
+      "name": "7-Listar Productos",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/comercios/{{comercioId}}/productos",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{clienteToken}}" }] }
+      }
+    },
+    {
+      "name": "8-Crear Pedido CLIENTE",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/pedidos",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{clienteToken}}" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"items\": [{ \"productoId\": 1, \"cantidad\": 2 }]\n}" }
+      }
+    },
+    {
+      "name": "9-Mis Pedidos",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/pedidos/mis-pedidos",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{clienteToken}}" }] }
+      }
+    },
+    {
+      "name": "10-Disponibles Repartidor",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/pedidos/disponibles",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{repartidorToken}}" }] }
+      }
+    },
+    {
+      "name": "11-Cambiar Estado",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/pedidos/{{pedidoId}}/estado",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{repartidorToken}}" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"estado\": \"EN_PREPARACION\"\n}" }
+      }
+    },
+    {
+      "name": "12-Cancelar Pedido",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/pedidos/{{pedidoId}}/cancelar",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{clienteToken}}" }] }
+      }
+    }
+  ]
+}

@@ -15,6 +15,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +24,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+    private static final Map<String, UserDetails> userDetailsCache = new ConcurrentHashMap<>();
+
+    public static void evictUserFromCache(String email) {
+        if (email != null) {
+            userDetailsCache.remove(email);
+        }
+    }
+
+    public static void clearCache() {
+        userDetailsCache.clear();
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -31,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
             String email = jwtTokenProvider.getEmailFromToken(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            UserDetails userDetails = userDetailsCache.computeIfAbsent(email, userDetailsService::loadUserByUsername);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails,

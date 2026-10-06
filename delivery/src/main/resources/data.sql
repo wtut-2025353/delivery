@@ -3,7 +3,8 @@
 INSERT IGNORE INTO usuarios (id, nombre, direccion, telefono, email, password, rol) VALUES
 (1, 'Administrador General', 'Zona 1, Ciudad de Guatemala', '5555-1111', 'admin@delivery.com', '$2a$10$3echZIb4yKXSMHAUO.KmFe4HeTVmD3l1nHad4B4oEiQ0xMuRzLVje', 'ADMIN'),
 (2, 'Carlos Repartidor', 'Zona 7, Ciudad de Guatemala', '5555-2222', 'repartidor@delivery.com', '$2a$10$3echZIb4yKXSMHAUO.KmFe4HeTVmD3l1nHad4B4oEiQ0xMuRzLVje', 'REPARTIDOR'),
-(3, 'Juan Cliente', 'Zona 10, Ciudad de Guatemala', '5555-3333', 'cliente@delivery.com', '$2a$10$3echZIb4yKXSMHAUO.KmFe4HeTVmD3l1nHad4B4oEiQ0xMuRzLVje', 'CLIENTE');
+(3, 'Juan Cliente', 'Zona 10, Ciudad de Guatemala', '5555-3333', 'cliente@delivery.com', '$2a$10$3echZIb4yKXSMHAUO.KmFe4HeTVmD3l1nHad4B4oEiQ0xMuRzLVje', 'CLIENTE'),
+(4, 'Admin FastOrder', 'Zona 10, Ciudad de Guatemala', '5555-4444', 'admin@fastorder.com', '$2a$10$7tHrBbScOTN6z66k2VwBf.KA1l5Mz1TFE.n4mCd/UVIeI29S08.Eq', 'ADMIN');
 
 -- Inserción de comercios
 INSERT IGNORE INTO comercios (id, nombre, categoria, direccion, abierto) VALUES
